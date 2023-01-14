@@ -12,5 +12,5 @@ app.post('/addreview', coffeeController.addReview, (req, res) => {
     res.status(200).json({})
 })
 
-
+console.log('hello')
 module.exports = app;
