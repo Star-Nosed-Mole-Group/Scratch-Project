@@ -27,7 +27,7 @@ const routerUser = require('./routes/users');
 const routerCoffee = require('./routes/coffee');
 
 // define route handlers
-app.use('/api/scores', routerUser);
+app.use('/api/user', routerUser);
 app.use('/api/coffee', routerCoffee);
 
 
