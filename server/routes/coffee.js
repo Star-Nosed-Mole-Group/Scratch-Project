@@ -8,7 +8,7 @@ app.get('/', coffeeController.readCoffeeShops, (req, res) => {
     res.status(200).json(res.locals.readShops)
 })
 
-app.post('/addreview', coffeeController.addReview, (req, res) => { 
+app.post('/addreview', coffeeController.addReview, coffeeController.updateAve, (req, res) => { 
     res.status(200).json({})
 })
 
