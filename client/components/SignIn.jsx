@@ -25,7 +25,8 @@ class SignIn extends React.Component {
 
     handleSubmit(event) {
         // alert('Event is ' + event);
-        alert('Make post request');
+        
+        alert('Make get request');
     }
 
     render () {

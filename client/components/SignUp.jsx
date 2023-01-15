@@ -25,7 +25,22 @@ class Signup extends React.Component {
 
     handleSubmit(event) {
         // alert('Event is ' + event);
-        alert('Make post request');
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(this.state)
+        };
+        fetch('http://localhost:3000/api/user/signup', requestOptions)
+          .then(data => {
+            alert('data is: ' + data);
+            // redirect here
+          })
+          .catch(err => {
+            alert('err is: ' + err)
+          })
+        alert('Username: ' + JSON.stringify(this.state) + ' Password ' + this.state.password);
+        
+
     }
 
     render () {
