@@ -35,7 +35,7 @@ coffeeController.readCoffeeShops = (req, res, next) => {
 
     db.query(selectShops, array)
       .then(response => {
-        res.locals.readShops = response.rows;
+        res.locals.readShops = response.rows; 
         console.log(response.rows);
         return next();
       })
@@ -67,12 +67,13 @@ coffeeController.searchByName = (req, res, next) => {
 }
 
 //have to write this in mongo
-coffeeController.readReview = (req, res, next) => {
-  const text = 'SELECT * FROM spots'
-  db.query(text)
+coffeeController.readReviews = (req, res, next) => {
+  const { id } = req.query;
+  
+  Reviews.find({shopId: id})
   .then((response) => {
-    res.locals.reviews = response.rows
-    console.log('Got values!!');
+    res.locals.reviews = response.rows// correct response obj?
+    console.log('Got reviews!!');
     return next();
   })
   .catch((err) => {
@@ -84,8 +85,9 @@ coffeeController.readReview = (req, res, next) => {
 }
 
 //will we render their username
-//add this controller after they search by name (not criteria)
-
+//add this controller after they search by name (not criteria) 
+  //will this be rendered after they click on shop or with a button
+  //a text field? 
 // after users add reviews, 
 coffeeController.addReview = (req, res, next) => {
   const { id } = req.query;
@@ -94,6 +96,7 @@ coffeeController.addReview = (req, res, next) => {
   Reviews.create({ shopId: id, food: quality_meals, drinks: quality_drinks, space: space, sound: sound,
     outlets: outlets, parking: parking, wifi: wifi})
     .then(response => {
+      console.log('review created!')
       //do we want to update all the rendered reviews to include this new review? array in frontend?
       return next()
     })
@@ -141,7 +144,7 @@ coffeeController.updateAve = async (req, res, next) => {
       })
     })
 
-    const { food_avg, blah blah } = newAveValues 
+    const { food_avg } = newAveValues 
     db.query('UPDATE spots $1, $2, $3')
 
     // getReviews.forEach(el => {
