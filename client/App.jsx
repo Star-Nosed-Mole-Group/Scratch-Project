@@ -10,13 +10,14 @@ import Layout from './components/Layout.jsx'
 function App() {
     return (
         <div>
-        {/* <Routes>
+        <Routes>
           <Route path='/' element={<Layout/>} />
           <Route index element={<SignIn />} />
+          <Route path='/signin' element={<SignIn />} />
           <Route path='/home' element={<HomePage/>}/>
           <Route path='/signup' element={<SignUp/>}/>
-        </Routes > */}
-        <SignUp />
+        </Routes >
+        {/* <SignUp /> */}
         </div>
     )
 }

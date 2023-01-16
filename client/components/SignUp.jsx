@@ -60,7 +60,12 @@ class Signup extends React.Component {
                     <br/>
                     <input type="submit" value="Sign up!"/>
                 </form>
-
+              <div>
+                <br/>
+                  <Link to="/signin">
+                     <button>Already have an account?</button>
+                  </Link>
+              </div>
             </div>
         )
     }

@@ -46,6 +46,15 @@ class SignIn extends React.Component {
                     <br/>
                     <input type="submit" value="Sign in"/>
                 </form>
+                <br/>
+                <div>
+                 <Link to="/signup">
+                    <button>Don't have an account?</button>
+                 </Link>
+                 <Link to="/home">
+                    <button>So we can still access home</button>
+                 </Link>
+                </div>
 
             </div>
         )
