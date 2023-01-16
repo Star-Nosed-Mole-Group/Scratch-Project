@@ -26,6 +26,7 @@ class Signup extends React.Component {
     handleSubmit(event) {
         alert('Event is ' + event);
         const requestOptions = {
+            mode: 'no-cors',
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(this.state)
@@ -33,7 +34,8 @@ class Signup extends React.Component {
         //const request = new Request ('http://localhost:3000/api/user/signup')
         fetch('http://localhost:3000/api/user/signup', requestOptions)
           .then(response => {
-            alert(response.status)
+            response.json();
+            alert('ERROR 1 ' + response.status)
             alert('You have successfully signed up!');
             // redirect here
             return <Redirect to='/home'/>
