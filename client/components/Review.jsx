@@ -6,7 +6,7 @@ export default function Review(props) {
   return (
     <div className='review-container'>
         {Object.keys(props).map(prop => {
-            return (<div>{prop}:{props[prop]}</div>);
+            return (<div>{prop}: {props[prop]}</div>);
         })}
     </div>
     
