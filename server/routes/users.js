@@ -16,7 +16,7 @@ app.post('/signup', authController.createUser, (req, res) => {
     res.sendStatus(200);
 })
 
-app.get('/login', authController.verifyUser, (req, res) => { 
+app.post('/login', authController.verifyUser, (req, res) => { 
     res.status(200).json({})
 })
 
