@@ -4,6 +4,8 @@ const Reviews = require('../models/reviewsModel');
 /**
  *   Information that we are receiving from the front-end (req.body):
  *   
+ * 
+ *   name (string) --> this is a search field function.
  *   quality of meals (1 - 5)
  *   quality of drinks (1 - 5)
  *   space availability (1 - 5)
@@ -11,8 +13,6 @@ const Reviews = require('../models/reviewsModel');
  *   sound (1-5)
  *   wifi (1-5)
  * 
- *   has an outlet
- *   * ** ***  ->  * = 1 outlet , ** = 2 outlets, *** = 3 or more outlets
  * 
  * */
 
@@ -20,11 +20,10 @@ const coffeeController = {};
 
 
 //controller for searching for coffeeshops by selected criteria
-coffeeController.readCoffeeShops = (req, res, next) => {
+coffeeController.searchShopsByCriteria = (req, res, next) => {
     const { quality_meals, quality_drinks, space, sound, outlets, parking, wifi } = req.body;
-    const array = [quality_meals, quality_drinks, space, sound, outlets, parking, wifi];
-    
-    const selectShops = `SELECT * FROM spots 
+    const value1 = [quality_meals, quality_drinks, space, sound, outlets, parking, wifi];
+    const selectShopsByCriteria = `SELECT * FROM spots 
                   WHERE food_avg >= $1 
                   AND drinks_avg >= $2
                   AND space_avg >= $3
@@ -33,7 +32,7 @@ coffeeController.readCoffeeShops = (req, res, next) => {
                   AND parking_avg >= $6
                   AND wifi_avg >= $7`;
 
-    db.query(selectShops, array)
+    db.query(selectShopsByCriteria, value1)
       .then(response => {
         res.locals.readShops = response.rows; 
         console.log(response.rows);
@@ -48,14 +47,15 @@ coffeeController.readCoffeeShops = (req, res, next) => {
 }
 
 //controller for searching for coffee shop by name
-coffeeController.searchByName = (req, res, next) => {
+//after searching by name, what renders, and what's the next click?
+coffeeController.searchShopsByName = (req, res, next) => {
   const { name } = req.body;
-  const query = `SELECT name from spots WHERE name=${name}`;
+  const query = `SELECT name from spots WHERE shop_name=${name}`;
   
   db.query(query)
     .then(response => {
       console.log('got the coffee shop you typed requested!');
-      res.locals.getShop = response; 
+      res.locals.readShops = response.rows; 
       return next();
     })
     .catch((err) => {
@@ -66,7 +66,9 @@ coffeeController.searchByName = (req, res, next) => {
     })
 }
 
-//have to write this in mongo
+
+//is there a way to make it so that in this controller, if the user has made a review, it'll pin that review to the top?
+  //and that one review will have update/delete buttons? 
 coffeeController.readReviews = (req, res, next) => {
   const { id } = req.query;
   
@@ -88,7 +90,6 @@ coffeeController.readReviews = (req, res, next) => {
 //add this controller after they search by name (not criteria) 
   //will this be rendered after they click on shop or with a button
   //a text field? 
-// after users add reviews, 
 coffeeController.addReview = (req, res, next) => {
   const { id } = req.query;
   const { quality_meals, quality_drinks, space, sound, outlets, parking, wifi } = req.body;
@@ -109,9 +110,17 @@ coffeeController.addReview = (req, res, next) => {
     }
  
 
-
+//how will this render? user searches by name, readreviews, searches through for their own review (need to add username to review model)
+    //how do we save the username with the request object? parameterized queries? cookie? 
 coffeeController.delReview = (req, res, next) => {
-  const { id } = req.query; // maybe specific id? 
+  const { id } = req.query; 
+  
+};
+
+//this controller is to update an individual's review
+//have to save res.locals. to updateAve controller
+
+coffeeController.updateReview = (req, res, next) => {
   
 };
 
@@ -162,10 +171,7 @@ coffeeController.updateAve = async (req, res, next) => {
 
 }
 
-//this controller is to update an individual's review
-coffeeController.updateReview = (req, res, next) => {
 
-}
 
 
 // ALTER TABLE spots
@@ -177,7 +183,6 @@ coffeeController.updateReview = (req, res, next) => {
 //  CREATE TABLE spots (
   //     _id SERIAL PRIMARY KEY,
   //     shop_name VARCHAR(50) NOT NULL,
- //      reviews_id INTEGER
 //       food_avg INTEGER // hard coded to0
 //       drinks_avg INTEGER //0
 //       space_avg INTEGER //0
@@ -186,7 +191,7 @@ coffeeController.updateReview = (req, res, next) => {
   
   
   // This is the table for user reviews for a specitic coffee shop.
-// CREATE TABLE reviews (
+// CREATE TABLE reviews ( IGNORE THIS ONE- --> REFER TO THE MONGOOSE MODEL in reviewsModel.js
 //     _id SERIAL PRIMARY KEY,
 //     food INTEGER,
 //     drinks INTEGER,
@@ -216,6 +221,9 @@ coffeeController.updateReview = (req, res, next) => {
 //     VALUES (5, 3, 4, 1, 2, 4, 3)
 
 /**
+ * 
+ * 
+ * 
  */
 
 
