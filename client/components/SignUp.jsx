@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import React from 'react'
+import '../stylesheets/signup.css'
 
 
 class Signup extends React.Component {
@@ -33,8 +34,6 @@ class Signup extends React.Component {
             body: JSON.stringify(this.state)
         };
 
-
-        
         // alert('Username: ' + username + ' Password: ' + password)
         //const request = new Request ('http://localhost:3000/api/user/signup')
         fetch('http://localhost:3000/api/user/signup', requestOptions)
@@ -45,33 +44,24 @@ class Signup extends React.Component {
             // redirect here
            // return <Redirect to='/home'/>412
           })
-          .then(responseJSON => {
-            alert('RESPONSEJSON ' + responseJSON)
-          })
-          .catch(err => {
-            alert('err is: ' + err)
-          })
-          event.preventDefault();
-        alert('state is: ' + JSON.stringify(this.state));
-        
-
+          .catch(err => console.log(err));
+          event.preventDefault();       
     }
 
     render () {
 
         return (
             <div className='SignUpBox'>
+                <h1>Welcome to Coffee Shop</h1>
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         Username:
-                        <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/>
-                    </label>
-                    <br/>
+                    </label><br></br>
+                        <input type="text" name="username" value={this.state.username} placeholder='Enter username' onChange={this.handleChange}/><br></br>
                     <label>
                         Password:
-                        <input type="text" name="password" value={this.state.password} onChange={this.handleChange} />
-                    </label>
-                    <br/>
+                    </label><br></br>
+                        <input type="text" name="password" value={this.state.password} placeholder='Enter password' onChange={this.handleChange}/><br></br>
                     <input type="submit" value="Sign up!"/>
                 </form>
               <div>
