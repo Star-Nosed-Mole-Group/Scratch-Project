@@ -21,16 +21,17 @@ const coffeeController = {};
 
 //controller for searching for coffeeshops by selected criteria
 coffeeController.searchShopsByCriteria = (req, res, next) => {
-    const { quality_meals, quality_drinks, space, sound, outlets, parking, wifi } = req.body;
+  console.log('searchShopsByCriteria');
+    const { quality_meals, quality_drinks, space, sound, outlets, parking, wifi } = req.query;
     const value1 = [quality_meals, quality_drinks, space, sound, outlets, parking, wifi];
     const selectShopsByCriteria = `SELECT * FROM spots 
-                  WHERE food_avg >= $1 
-                  AND drinks_avg >= $2
-                  AND space_avg >= $3
-                  AND sound_avg >= $4
-                  AND outlets_avg >= $5
-                  AND parking_avg >= $6
-                  AND wifi_avg >= $7`;
+                  WHERE food >= $1 
+                  AND drinks >= $2
+                  AND space >= $3
+                  AND sound >= $4
+                  AND outlets >= $5
+                  AND parking >= $6
+                  AND wifi >= $7`;
 
     db.query(selectShopsByCriteria, value1)
       .then(response => {
@@ -40,8 +41,8 @@ coffeeController.searchShopsByCriteria = (req, res, next) => {
       })
       .catch(err => {
         return next({
-            log: 'an error occurred in coffeeController.readCoffeeShops middleware',
-            message: {err: 'an error occurred when reading shops in coffeeController.readCoffeeShops'}
+            log: 'an error occurred in coffeeController.searchShopsByCriteria middleware',
+            message: {err: 'an error occurred when reading shops in coffeeController.searchShopsByCriteria'}
         })
       })
 }
@@ -71,11 +72,14 @@ coffeeController.searchShopsByName = (req, res, next) => {
   //and that one review will have update/delete buttons? 
 coffeeController.readReviews = (req, res, next) => {
   const { id } = req.query;
+  console.log('readReviews executed');
+  console.log('id: ', id);
   
   Reviews.find({shopId: id})
   .then((response) => {
-    res.locals.reviews = response.rows// correct response obj?
+    res.locals.reviews = response; /// correct response obj?
     console.log('Got reviews!!');
+    console.log(response);
     return next();
   })
   .catch((err) => {
@@ -91,7 +95,7 @@ coffeeController.readReviews = (req, res, next) => {
   //will this be rendered after they click on shop or with a button
   //a text field? 
 coffeeController.addReview = (req, res, next) => {
-  const { id } = req.query;
+  const { id } = req.params;
   const { quality_meals, quality_drinks, space, sound, outlets, parking, wifi } = req.body;
   
   Reviews.create({ shopId: id, food: quality_meals, drinks: quality_drinks, space: space, sound: sound,
