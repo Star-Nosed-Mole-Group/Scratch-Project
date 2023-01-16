@@ -1,0 +1,10 @@
+.shop {
+    width: 400px;
+    height: 100px;
+    background-color: rgb(52, 52, 52);
+    color: white;
+}
+
+.shop:hover {
+    cursor: pointer;
+}
