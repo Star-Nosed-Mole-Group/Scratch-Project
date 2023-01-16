@@ -4,7 +4,7 @@ const app = express.Router();
 const coffeeController = require('../controllers/coffeeController');
 
 //user sets criteria and sends get request to see filtered coffeeshops
-app.get('/', coffeeController.readCoffeeShops, (req, res) => { 
+app.get('/', coffeeController.searchShopsByCriteria, (req, res) => { 
     res.status(200).json(res.locals.readShops)
 })
 
