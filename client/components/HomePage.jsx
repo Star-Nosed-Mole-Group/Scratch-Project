@@ -85,7 +85,7 @@ class searchForm extends React.Component {
               </label>
               <br />
                 <div className="searchCriteria-btn">
-                  <Link to={'/shoplist'}  query={ { state: this.state }}><button>Search</button></Link>
+                  <Link to={'/shoplist'}  state={{from: this.state}}><button>Search</button></Link>
                 </div>
             </form>
           </div>
