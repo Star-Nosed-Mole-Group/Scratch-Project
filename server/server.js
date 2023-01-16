@@ -15,7 +15,7 @@ mongoose
   .connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    dbName: 'reviews'
+    dbName: 'coffeeShopReviews'
   })
   .then(() => console.log('Connected to MongoDB.'))
   .catch(err => console.log(err));
