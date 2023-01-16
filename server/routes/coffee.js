@@ -16,7 +16,7 @@ app.post('/addreview', coffeeController.addReview, coffeeController.updateAve, c
     res.status(200).json(res.locals.reviews)
 })
 
-app.delete('/deletereview', coffeeController.deleteReview, coffeeController.updateAve, coffeeController.readReviews, (req, res) => {
+app.delete('/deletereview', coffeeController.delReview, coffeeController.updateAve, coffeeController.readReviews, (req, res) => {
     res.status(200).json(res.locals.reviews)
 })
 
