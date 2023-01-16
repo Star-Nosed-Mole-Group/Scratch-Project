@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import React from 'react'
-
+import '../stylesheets/layout.css'
 function Layout() {
     return (
       <div>
@@ -16,6 +16,9 @@ function Layout() {
             </li>
             <li>
               <Link to="/signup">SignUp</Link>
+            </li>
+            <li>
+              <Link to="/shoplist">shopList</Link>
             </li>
           </ul>
         </nav>
