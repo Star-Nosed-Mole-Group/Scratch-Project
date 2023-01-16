@@ -4,6 +4,17 @@ import Review from './Review';
 export default function FocusedShop(props) {
     const [reviews, setReviews] = useState([]);
     const { drinks, food, name, outlets, parking, sound, space, wifi, _id, setIsFocused } = props;
+
+    const [ addReview, setAddReview ] = useState({
+        drinks: 0,
+        food: 0,
+        outlets: 0,
+        parking: 0,
+        sound: 0,
+        space:0,
+        wifi:0
+    });
+
     
     useEffect(() => {
       const query = `?id=${_id}`;
@@ -14,25 +25,97 @@ export default function FocusedShop(props) {
         })
     }, []);
 
+
+    const handleAddReviewClick = () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify()
+          };
+        fetch('http://localhost:8080/api/coffee/addReview', requestOptions)
+    }
+    
   return (
     <div className='focused-shop'>
         <div className="shopName">{name} Reviews</div>
-        <button className='addReview-btn'>Add Review</button>
         <div onClick={() => setIsFocused()} className="exit-focus">X</div>
-        { reviews.map(review => {
-            const { drinks, food, username, outlets, parking, sound, space, wifi} = review;
-            return <Review
-                drinks={drinks}
-                food={food}
-                outlets={outlets}
-                parking={parking}
-                sound={sound}
-                space={space}
-                wifi={wifi}
-                username={username}
-                key={_id}
-            />
-        })}
+        <div className="review-container">
+            { reviews.map(review => {
+                const { drinks, food, username, outlets, parking, sound, space, wifi} = review;
+                return <Review
+                    drinks={drinks}
+                    food={food}
+                    outlets={outlets}
+                    parking={parking}
+                    sound={sound}
+                    space={space}
+                    wifi={wifi}
+                    username={username}
+                    key={_id}
+                />
+            })}
+        </div>
+        <div className="add-review-container">
+            <div className="add-review-item">
+                <span>Drinks</span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {drinks: 1}))} className={addReview.drinks >= 1 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {drinks: 2}))} className={addReview.drinks >= 2 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {drinks: 3}))} className={addReview.drinks >= 3 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {drinks: 4}))} className={addReview.drinks >= 4 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {drinks: 5}))}className={addReview.drinks >= 5 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+            </div>
+            <div className="add-review-item">
+                <span>Food</span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {food: 1}))} className={addReview.food >= 1 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {food: 2}))} className={addReview.food >= 2 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {food: 3}))} className={addReview.food >= 3 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {food: 4}))} className={addReview.food >= 4 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {food: 5}))} className={addReview.food >= 5 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+            </div>
+            <div className="add-review-item">
+                <span>Outlets</span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {outlets: 1}))} className={addReview.outlets >= 1 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {outlets: 2}))} className={addReview.outlets >= 2 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {outlets: 3}))} className={addReview.outlets >= 3 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {outlets: 4}))} className={addReview.outlets >= 4 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {outlets: 5}))} className={addReview.outlets >= 5 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+            </div>
+            <div className="add-review-item">
+                <span>Parking</span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {parking: 1}))} className={addReview.parking >= 1 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {parking: 2}))} className={addReview.parking >= 2 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {parking: 3}))} className={addReview.parking >= 3 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {parking: 4}))} className={addReview.parking >= 4 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {parking: 5}))} className={addReview.parking >= 5 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+            </div>
+            <div className="add-review-item">
+                <span>Sound</span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {sound: 1}))} className={addReview.sound >= 1 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {sound: 2}))} className={addReview.sound >= 2 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {sound: 3}))} className={addReview.sound >= 3 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {sound: 4}))} className={addReview.sound >= 4 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {sound: 5}))}className={addReview.sound >= 5 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+            </div>
+            <div className="add-review-item">
+                <span>Space</span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {space: 1}))} className={addReview.space >= 1 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {space: 2}))} className={addReview.space >= 2 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {space: 3}))} className={addReview.space >= 3 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {space: 4}))} className={addReview.space >= 4 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {space: 5}))}className={addReview.space >= 5 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+            </div>
+            <div className="add-review-item">
+                <span>Wifi</span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {wifi: 1}))} className={addReview.wifi >= 1 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {wifi: 2}))} className={addReview.wifi >= 2 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {wifi: 3}))} className={addReview.wifi >= 3 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {wifi: 4}))} className={addReview.wifi >= 4 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+                <span onClick={() => setAddReview(Object.assign({}, {...addReview}, {wifi: 5}))}className={addReview.wifi >= 5 ? 'fa fa-star checked' : 'fa fa-star star'}></span>
+            </div>
+            
+
+            <button className='addReview-btn' onClick={() => handleAddReviewClick()}>Add Review</button>
+        </div>
     </div>
   )
 }
