@@ -24,26 +24,35 @@ class Signup extends React.Component {
     }
 
     handleSubmit(event) {
-        alert('Event is ' + event);
+        const username = this.state.username;
+        const password = this.state.password;
         const requestOptions = {
-            mode: 'no-cors',
+            // mode: 'no-cors',
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(this.state)
         };
+
+
+        
+        // alert('Username: ' + username + ' Password: ' + password)
         //const request = new Request ('http://localhost:3000/api/user/signup')
         fetch('http://localhost:3000/api/user/signup', requestOptions)
           .then(response => {
             response.json();
-            alert('ERROR 1 ' + response.status)
+            alert('resonse status is: ' + response.status)
             alert('You have successfully signed up!');
             // redirect here
-            return <Redirect to='/home'/>
+           // return <Redirect to='/home'/>412
+          })
+          .then(responseJSON => {
+            alert('RESPONSEJSON ' + responseJSON)
           })
           .catch(err => {
             alert('err is: ' + err)
           })
-        alert('Username: ' + JSON.stringify(this.state) + ' Password ' + this.state.password);
+          event.preventDefault();
+        alert('state is: ' + JSON.stringify(this.state));
         
 
     }
