@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import React from 'react'
+import '../stylesheets/signin.css'
 
 
 class SignIn extends React.Component {
@@ -7,7 +8,7 @@ class SignIn extends React.Component {
         super(props)
         this.state = {
             username: "",
-            password: "",
+            password: ""
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,30 +24,35 @@ class SignIn extends React.Component {
         })
     }
 
-    handleSubmit(event) {
-        // alert('Event is ' + event);
-        
-        alert('Make get request');
+    // use this to log in -> username: hello  / password: beans
+    handleSubmit() {
+      const requestOptions = {
+        // mode: 'no-cors',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(this.state)
+      };
+      fetch('http://localhost:3000/api/user/login', requestOptions)
+        .catch(err => console.log(err));
+        // alert('Make get request');
     }
 
     render () {
 
         return (
-            <div className='SignInBox'>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Username:
-                        <input type="text" name="username" value={this.state.username} onChange={this.handleChange}/>
-                    </label>
-                    <br/>
-                    <label>
-                        Password:
-                        <input type="text" name="password" value={this.state.password} onChange={this.handleChange} />
-                    </label>
-                    <br/>
-                    <input type="submit" value="Sign in"/>
-                </form>
-                <br/>
+            <div className="login">
+                <h1>Welcome to Coffee Shop</h1>
+                <div className="username">
+                <label htmlFor="username">Username</label><br></br>
+                <input placeholder='Enter your username' type="text" id="username" name="username" onChange={(e) => this.handleChange(e)}></input>
+                </div>
+            <div className="password">
+                <label htmlFor="password">Password</label><br></br>
+                <input placeholder='Enter your password' type="password" id="password" name="password" onChange={(e) => this.handleChange(e)}></input>
+            </div><br></br>
+            <div className="signin-btn">
+              <Link to={'/home'}><button onClick={this.handleSubmit}>Sign in</button></Link>
+            </div>
                 <div>
                  <Link to="/signup">
                     <button>Don't have an account?</button>
@@ -55,7 +61,6 @@ class SignIn extends React.Component {
                     <button>So we can still access home</button>
                  </Link>
                 </div>
-
             </div>
         )
     }
