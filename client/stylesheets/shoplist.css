@@ -39,3 +39,21 @@
     cursor: pointer;
 }
 
+.review-container {
+    background-color: green;
+    height: 80%;
+}
+
+.add-review-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.checked {
+    color: orange;
+}
+
+.star:hover {
+    color: orange;
+}
+
