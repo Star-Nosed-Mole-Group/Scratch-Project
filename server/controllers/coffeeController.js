@@ -163,9 +163,9 @@ coffeeController.updateAve = async (req, res, next) => {
 }
 
 //this controller is to update an individual's review
-coffeeController.updateReview = {};
+coffeeController.updateReview = (req, res, next) => {
 
-
+}
 
 
 // ALTER TABLE spots
@@ -216,9 +216,6 @@ coffeeController.updateReview = {};
 //     VALUES (5, 3, 4, 1, 2, 4, 3)
 
 /**
- * 
- * 
- * 
  */
 
 
