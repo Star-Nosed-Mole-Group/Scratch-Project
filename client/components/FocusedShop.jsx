@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Review from './Review';
+import '../stylesheets/focusedshop.css';
+
 
 export default function FocusedShop(props) {
     const [reviews, setReviews] = useState([]);

@@ -41,18 +41,18 @@ class SignIn extends React.Component {
 
         return (
             <div className="login">
-                <h1>Welcome to Coffee Shop</h1>
+                <h1>Welcome to Coffee Shop ☕</h1>
                 <div className="username">
-                <label htmlFor="username">Username</label><br></br>
-                <input placeholder='Enter your username' type="text" id="username" name="username" onChange={(e) => this.handleChange(e)}></input>
+                    <label htmlFor="username">Username</label><br></br>
+                    <input placeholder='Enter your username' type="text" id="username" name="username" onChange={(e) => this.handleChange(e)}></input>
                 </div>
-            <div className="password">
-                <label htmlFor="password">Password</label><br></br>
-                <input placeholder='Enter your password' type="password" id="password" name="password" onChange={(e) => this.handleChange(e)}></input>
-            </div><br></br>
-            <div className="signin-btn">
-              <Link to={'/home'}><button onClick={this.handleSubmit}>Sign in</button></Link>
-            </div>
+                <div className="password">
+                    <label htmlFor="password">Password</label><br></br>
+                    <input placeholder='Enter your password' type="password" id="password" name="password" onChange={(e) => this.handleChange(e)}></input>
+                </div><br></br>
+                <div className="signin-btn">
+                    <Link to={'/home'}><button onClick={this.handleSubmit}>Sign in</button></Link>
+                </div>
                 <div>
                  <Link to="/signup">
                     <button>Don't have an account?</button>

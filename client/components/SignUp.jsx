@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import React from 'react'
-import '../stylesheets/signup.css'
+import '../stylesheets/signin.css'
 
 
 class Signup extends React.Component {
@@ -51,8 +51,8 @@ class Signup extends React.Component {
     render () {
 
         return (
-            <div className='SignUpBox'>
-                <h1>Welcome to Coffee Shop</h1>
+            <div className='login'>
+                <h1>Welcome to Coffee Shop ☕</h1>
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         Username:
@@ -67,7 +67,7 @@ class Signup extends React.Component {
               <div>
                 <br/>
                   <Link to="/signin">
-                     <button>Already have an account?</button>
+                     <button className='haveanaccount'>Already have an account?</button>
                   </Link>
               </div>
             </div>
