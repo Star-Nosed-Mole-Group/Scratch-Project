@@ -9,6 +9,7 @@ const ShopList = props => {
   const location = useLocation();
   const { from } = location.state;
   const { quality_meals, quality_drinks, space, sound, outlets, parking, wifi, shopname } = from;  
+  console.log('from: ', from);
   
   const fetchShopMatches = () => {
     const query = `?quality_meals=${quality_meals}&quality_drinks=${quality_drinks}&space=${space}&sound=${sound}&outlets=${outlets}&parking=${parking}&wifi=${wifi}`;

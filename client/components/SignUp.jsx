@@ -1,67 +1,42 @@
 import { Link } from 'react-router-dom'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../stylesheets/signin.css'
 
 
-class Signup extends React.Component {
-    constructor (props) {
-        super(props)
-        this.state = {
-            username: "",
-            password: "",
-        }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+const Signup = props => {
+    const [ username , SetUsername ] = useState('');
+    const [ password , SetPassword ] = useState('');
 
-    handleChange(event) {
-        const target = event.target;
-        // alert(' Event is ' + event.target.)
-        const value = target.value;
-        const name = target.name;
-        this.setState({
-            [name]: value
-        })
-    }
-
-    handleSubmit(event) {
-        const username = this.state.username;
-        const password = this.state.password;
+    const handleSubmit = () => {
         const requestOptions = {
             // mode: 'no-cors',
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(this.state)
-        };
+            body: JSON.stringify({ username, password})
+    };
 
         // alert('Username: ' + username + ' Password: ' + password)
         //const request = new Request ('http://localhost:3000/api/user/signup')
-        fetch('http://localhost:3000/api/user/signup', requestOptions)
-          .then(response => {
-            response.json();
-            alert('resonse status is: ' + response.status)
-            alert('You have successfully signed up!');
-            // redirect here
-           // return <Redirect to='/home'/>412
-          })
-          .catch(err => console.log(err));
-          event.preventDefault();       
+    fetch('http://localhost:3000/api/user/signup', requestOptions)
+      .then(response => {
+        response.json();
+        alert('resonse status is: ' + response.status)
+        alert('You have successfully signed up!');
+      })
+      .catch(err => console.log(err));      
     }
-
-    render () {
-
         return (
             <div className='login'>
                 <h1>Welcome to Coffee Shop ☕</h1>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={handleSubmit}>
                     <label>
                         Username:
                     </label><br></br>
-                        <input type="text" name="username" value={this.state.username} placeholder='Enter username' onChange={this.handleChange}/><br></br>
+                        <input type="text" name="username" value={username} placeholder='Enter username' onChange={(e) => SetUsername(e.target.value)}/><br></br>
                     <label>
                         Password:
                     </label><br></br>
-                        <input type="text" name="password" value={this.state.password} placeholder='Enter password' onChange={this.handleChange}/><br></br>
+                        <input type="text" name="password" value={password} placeholder='Enter password' onChange={(e) => SetPassword(e.target.value)}/><br></br>
                     <input type="submit" value="Sign up!"/>
                 </form>
               <div>
@@ -72,7 +47,6 @@ class Signup extends React.Component {
               </div>
             </div>
         )
-    }
 }
 
 export default Signup;
