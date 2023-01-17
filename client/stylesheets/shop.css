@@ -1,0 +1,23 @@
+.shop {
+    width: 400px;
+    height: auto;
+    background-color: rgb(52, 52, 52);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    border: 1px solid white;
+    padding: 15px;
+    border-radius: 5px;
+    width: 750px;
+}
+
+.shop-averages-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.shop:hover {
+    cursor: pointer;
+}

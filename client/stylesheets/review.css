@@ -1,0 +1,25 @@
+.review-container {
+    background-color: bisque;
+    overflow-y: scroll;
+}
+
+.review {
+    background-color: rgb(52, 52, 52);
+    border: 1px solid white;
+    color: white;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    height: 100px;
+    font-size: 1.6em;
+    padding: 10px;
+}
+
+.review-grid-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+

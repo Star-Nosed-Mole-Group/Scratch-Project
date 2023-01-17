@@ -3,14 +3,27 @@ const express = require('express');
 const app = express.Router();
 const coffeeController = require('../controllers/coffeeController');
 
-
-app.get('/', coffeeController.readCoffeeShops, (req, res) => { 
+//user sets criteria and sends get request to see filtered coffeeshops
+app.get('/', coffeeController.searchShopsByCriteria, (req, res) => { 
     res.status(200).json(res.locals.readShops)
 })
 
-app.post('/addreview', coffeeController.addReview, (req, res) => { 
-    res.status(200).json({})
+app.get('/reviews', coffeeController.readReviews, (req, res) => {
+    res.status(200).json(res.locals.reviews)
 })
+
+app.post('/addreview', coffeeController.addReview, coffeeController.updateAve, coffeeController.readReviews, (req, res) => { 
+    res.status(200).json(res.locals.reviews)
+})
+
+app.delete('/deletereview', coffeeController.delReview, coffeeController.updateAve, coffeeController.readReviews, (req, res) => {
+    res.status(200).json(res.locals.reviews)
+})
+
+app.patch('/updatereview', coffeeController.updateReview, coffeeController.updateAve, coffeeController.readReviews, (req, res) => {
+    res.status(200).json(res.locals.reviews)
+})
+
 
 
 module.exports = app;

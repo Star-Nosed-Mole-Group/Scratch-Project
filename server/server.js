@@ -1,18 +1,24 @@
 const path = require('path');
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
 
-//hi mark
-//how is the wedding
-// https://us06web.zoom.us/j/99228433727 (Passcode: expressjs)
-//i'm there!!
-//if you want to find us, we're in room 13
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 const PORT = 3000;
 
+const MONGO_URI = 'mongodb+srv://studyspot:studiousmoles@cluster0.6h0gbc8.mongodb.net/?retryWrites=true&w=majority';
+
+mongoose 
+  .connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: 'coffeeShopReviews'
+  })
+  .then(() => console.log('Connected to MongoDB.'))
+  .catch(err => console.log(err));
 
 // statically serve static files and serve root directory index.html only in production mode
 if (process.env.NODE_ENV === 'production') {
@@ -27,6 +33,7 @@ const routerUser = require('./routes/users');
 const routerCoffee = require('./routes/coffee');
 
 // define route handlers
+app.use('/public', express.static(path.join(__dirname, '../client/public')));
 app.use('/api/user', routerUser);
 app.use('/api/coffee', routerCoffee);
 

@@ -9,7 +9,7 @@ module.exports = {
     path: path.join(__dirname, '/dist'),
     filename: 'bundle.js'
   }, 
-  plugins: [new HtmlWebpackPlugin({template: './client/index.html'})],
+  plugins: [new HtmlWebpackPlugin({template: './client/index.html'}), new MiniCssExtractPlugin()],
   devServer: {
     static: {
         // publicPath: '/dist',
