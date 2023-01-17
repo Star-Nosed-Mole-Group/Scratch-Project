@@ -42,6 +42,7 @@
 .review-container {
     background-color: green;
     height: 80%;
+    overflow-y: scroll;
 }
 
 .add-review-container {
