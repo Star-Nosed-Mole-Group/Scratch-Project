@@ -53,7 +53,7 @@ const SignIn = (props) => {
                     <input placeholder='Enter your password' type="password" id="password" name="password" onChange={(e) => handleChange(e)}></input>
                 </div><br></br>
                 <div className="signin-btn">
-              <button onClick={handleSubmit}>Sign in</button>
+              <button state={{from: username}} onClick={handleSubmit}>Sign in</button>
             </div>
             <div>
              <Link to="/signup">
