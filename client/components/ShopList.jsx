@@ -10,16 +10,16 @@ const ShopList = props => {
   const { from } = location.state;
   const { quality_meals, quality_drinks, space, sound, outlets, parking, wifi, shopname } = from;  
   
+  const fetchShopMatches = () => {
+    const query = `?quality_meals=${quality_meals}&quality_drinks=${quality_drinks}&space=${space}&sound=${sound}&outlets=${outlets}&parking=${parking}&wifi=${wifi}`;
+    fetch(`http://localhost:8080/api/coffee/${query}`)
+      .then(res => res.json())
+      .then(res => {
+        console.log(res); // array of objects [{}, {}]
+        setMatches(res);
+      })
+  }
   useEffect(() => {
-    const fetchShopMatches = () => {
-      const query = `?quality_meals=${quality_meals}&quality_drinks=${quality_drinks}&space=${space}&sound=${sound}&outlets=${outlets}&parking=${parking}&wifi=${wifi}`;
-      fetch(`http://localhost:8080/api/coffee/${query}`)
-        .then(res => res.json())
-        .then(res => {
-          console.log(res); // array of objects [{}, {}]
-          setMatches(res);
-        })
-    }
     fetchShopMatches();
   }, []);
 
@@ -40,7 +40,8 @@ const ShopList = props => {
                  space={space}
                  wifi={wifi}
                  _id={_id}
-                 key={_id}
+                 key={`shop${_id}`}
+                 fetchShopMatches={fetchShopMatches}
           />
         })}
       </div>
