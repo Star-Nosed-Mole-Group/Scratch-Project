@@ -1,7 +1,9 @@
+require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+
 
 
 app.use(express.json())
@@ -10,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 const PORT = 3000;
 
 const MONGO_URI = 'mongodb+srv://studyspot:studiousmoles@cluster0.6h0gbc8.mongodb.net/?retryWrites=true&w=majority';
-
+console.log(process.env.MONGO_URI);
 mongoose 
   .connect(MONGO_URI, {
     useNewUrlParser: true,
@@ -19,6 +21,7 @@ mongoose
   })
   .then(() => console.log('Connected to MongoDB.'))
   .catch(err => console.log(err));
+
 
 // statically serve static files and serve root directory index.html only in production mode
 if (process.env.NODE_ENV === 'production') {
@@ -34,8 +37,8 @@ const routerCoffee = require('./routes/coffee');
 
 // define route handlers
 app.use('/public', express.static(path.join(__dirname, '../client/public')));
-app.use('/api/user', routerUser);
-app.use('/api/coffee', routerCoffee);
+app.use('/user', routerUser);
+app.use('/coffee', routerCoffee);
 
 
 // catch-all error handler

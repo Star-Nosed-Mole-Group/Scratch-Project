@@ -7,10 +7,10 @@ const cors = require('cors')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-    res.set('Access-Control-Allow-Origin', 'http://localhost:8080');
-    next();
-  });
+// app.use((req, res, next) => {
+//     res.set('Access-Control-Allow-Origin', 'http://localhost:8080');
+//     next();
+//   });
 
 app.post('/signup', authController.createUser, (req, res) => { 
     res.sendStatus(200);

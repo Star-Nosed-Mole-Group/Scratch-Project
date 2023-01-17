@@ -27,7 +27,7 @@ const SignIn = (props) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({username, password})
             };
-        fetch('http://localhost:3000/api/user/login', requestOptions)
+        fetch('/api/user/login', requestOptions)
           .then(data => {
             if (!data.ok) {
                 alert('Your username or password is incorrect');
