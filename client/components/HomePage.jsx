@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import '../stylesheets/homepage.css'
 
 class searchForm extends React.Component {
-    
-    constructor(props) {
+
+        constructor(props) {
         super(props);
         this.state = {
             quality_meals: 1,

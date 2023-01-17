@@ -51,7 +51,7 @@ coffeeController.searchShopsByCriteria = (req, res, next) => {
 //after searching by name, what renders, and what's the next click?
 coffeeController.searchShopsByName = (req, res, next) => {
   console.log('searchShopsByNames invoked');
-  const { name } = req.body;
+  const { name } = req.query;
   const query = `SELECT name from spots WHERE shop_name=${name}`;
   
   db.query(query)

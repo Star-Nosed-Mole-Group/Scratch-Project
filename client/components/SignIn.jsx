@@ -51,7 +51,7 @@ class SignIn extends React.Component {
                     <input placeholder='Enter your password' type="password" id="password" name="password" onChange={(e) => this.handleChange(e)}></input>
                 </div><br></br>
                 <div className="signin-btn">
-                    <Link to={'/home'}><button onClick={this.handleSubmit}>Sign in</button></Link>
+                    <Link to={'/home'} state={{from: this.state}}><button onClick={this.handleSubmit}>Sign in</button></Link>
                 </div>
                 <div>
                  <Link to="/signup">
