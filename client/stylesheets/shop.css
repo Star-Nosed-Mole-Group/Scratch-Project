@@ -3,6 +3,13 @@
     height: 100px;
     background-color: rgb(52, 52, 52);
     color: white;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.shop-averages-container {
+    display: flex;
+    flex-direction: row;
 }
 
 .shop:hover {
