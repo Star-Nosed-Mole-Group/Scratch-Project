@@ -50,7 +50,8 @@ coffeeController.searchShopsByCriteria = (req, res, next) => {
 //controller for searching for coffee shop by name
 //after searching by name, what renders, and what's the next click?
 coffeeController.searchShopsByName = (req, res, next) => {
-  const { name } = req.body;
+  console.log('searchShopsByNames invoked');
+  const { name } = req.query;
   const query = `SELECT name from spots WHERE shop_name=${name}`;
   
   db.query(query)
@@ -71,15 +72,13 @@ coffeeController.searchShopsByName = (req, res, next) => {
 //is there a way to make it so that in this controller, if the user has made a review, it'll pin that review to the top?
   //and that one review will have update/delete buttons? 
 coffeeController.readReviews = (req, res, next) => {
-  const { id } = req.query;
+  const { shopId } = req.query;
   console.log('readReviews executed');
-  console.log('id: ', id);
   
-  Reviews.find({shopId: id})
+  Reviews.find({shopId})
   .then((response) => {
     res.locals.reviews = response; /// correct response obj?
     console.log('Got reviews!!');
-    console.log(response);
     return next();
   })
   .catch((err) => {
@@ -95,15 +94,16 @@ coffeeController.readReviews = (req, res, next) => {
   //will this be rendered after they click on shop or with a button
   //a text field? 
 coffeeController.addReview = (req, res, next) => {
-  const { id } = req.params;
-  const { quality_meals, quality_drinks, space, sound, outlets, parking, wifi } = req.body;
-  
-  Reviews.create({ shopId: id, food: quality_meals, drinks: quality_drinks, space: space, sound: sound,
-    outlets: outlets, parking: parking, wifi: wifi})
+  const { food, drinks, space, sound, outlets, parking, wifi } = req.body;
+  const { shopId } = req.query;
+  console.log('addReview invoked');
+  Reviews.create({ shopId, food, drinks, space, sound,
+    outlets, parking, wifi, username: 'Jaden'})
     .then(response => {
       console.log('review created!')
+      console.log(response);
       //do we want to update all the rendered reviews to include this new review? array in frontend?
-      return next()
+      return next();
     })
     .catch(err => {
       return next({
@@ -130,47 +130,39 @@ coffeeController.updateReview = (req, res, next) => {
 
 //this controller has to include recalculating averages, updating values in the spots table
 coffeeController.updateAve = async (req, res, next) => {
-  const { id } = req.query;
-  // const { quality_meals, quality_drinks, space, sound, outlets, parking, wifi } = req.body;
-  // const values = [quality_meals, quality_drinks, space, sound, outlets, parking, wifi];
-  const text = `SELECT * from shops WHERE _id = $1`;
+  console.log('updateAve invoked');
+  // const { shopId, food, drinks, space, sound, outlets, parking, wifi } = req.body;  
   
-  const value = [req.query.id]
-    
-  const getReviews = await Reviews.find({ shopId: id }); // returns an array of objects of all the review criteria
-  const totalReviews = getReviews.length; // [{ food_avg: 2, drinks_avg: 3} ].length == 1
+  const text = `SELECT * from spots WHERE _id = $1`;
+  const value = [req.query.shopId];
+
+  const newAveValues = {}; // { name: starbucks, food_avg: 2, drinks_avg: 3}
+  const queryResponse =  await db.query(text, value); // [{ name: starbucks, food_avg: 2, drinks_avg: 3, reviewCount: 120}]
+  const queryRows = queryResponse.rows[0];
+  console.log('queryReponse:', queryRows);
+  for(const [key, value] of Object.entries(queryRows)) {
+    if(!['reviewcount', '_id', 'name'].includes(key)) {
+      console.log('value: ', value);
+      console.log('userRating: ', req.body[key]);
+      console.log('updated review count: ', queryRows.reviewcount + 1);
+      console.log('updated stars: ', (value * queryRows.reviewcount + req.body[key]) / (queryRows))
+      newAveValues[key] = (value * queryRows.reviewcount + req.body[key]) / (queryRows.reviewcount + 1);
+    }
+  }
   
-  db.query(text, value) // [{ name: starbucks, food_avg: 2, drinks_avg: 3}]
-    .then(response => {
-      // response.rows = [{ name: starbucks, food_avg: 2, drinks_avg: 3}]
-      // response.rows[0] = { name: starbucks, food_avg: 2, drinks_avg: 3}
-
-
-      const obj = {};
-      getReviews.forEach(el => {
-        for (let [key, value] of Object.entries(el)) {
-          if (key !== 'shopId') {
-            obj[key] = (response.rows[0][key] + req.body[key]) / (totalReviews + 1);
-          }
-        }
-        const newAveValues = obj; // { name: starbucks, food_avg: 2, drinks_avg: 3}
-      })
-    })
-
-    const { food_avg } = newAveValues 
-    db.query('UPDATE spots $1, $2, $3')
-
-    // getReviews.forEach(el => {
-    //   for (let [key, value] of Object.entries(el)) {
-    //     if (key !== 'shopId') {
-    //       updatedAverages[i] = (updatedAverages[i] + value) / (totalReviews + 1);
-    //     }
-    //   }
-    // })
+    console.log('newAveValues: ', newAveValues);
+    const query = 'UPDATE spots SET food=$2, drinks=$3, space=$4, sound=$5, outlets=$6, parking=$7, wifi=$8, reviewcount=$9 WHERE _id=$1';
+    const values = [req.query.shopId, newAveValues.food, newAveValues.drinks, newAveValues.space, newAveValues.sound, newAveValues.outlets, newAveValues.parking, newAveValues.wifi, queryRows.reviewcount + 1];
+    console.log('values array: ', values);
+    db.query(query, values)
+      .then(res => next())
+      .catch(err => {
+        return next({
+          log: 'updateAve error during update request',
+          message: {err: 'Error'}
+        });
+      }) 
     
-
-    food_avg = (food_avg+req.body.food)/(totalReviews+1);
-    // drinks_avg = 
 
 
 }
@@ -179,10 +171,16 @@ coffeeController.updateAve = async (req, res, next) => {
 
 
 // ALTER TABLE spots
-// ADD COLUMN name data_type VARCHAR;
+// ADD COLUMN name VARCHAR;
 
+// UPDATE table_name
+// SET column1 = value1, column2 = value2...., columnN = valueN
+// WHERE [condition];
 
+// ALTER TABLE table_name
+// ALTER COLUMN column_name datatype;
 
+// UPDATE spots SET food=$3, drinks=$3, space=$3, sound=$3, outlets=$2, parking=$1, wifi=$2, reviewcount=$3 WHERE _id=$1
 // This is the table of coffeeshops and their average reviews for each category.
 //  CREATE TABLE spots (
   //     _id SERIAL PRIMARY KEY,
@@ -213,7 +211,7 @@ coffeeController.updateAve = async (req, res, next) => {
 //     password VARCHAR(50)
 //  )
 
-    
+    // UPDATE spots SET name='Starbucks' WHERE _id=1;
 //     SELECT * FROM users
     
 //     INSERT INTO users (username, password)

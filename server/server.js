@@ -33,6 +33,7 @@ const routerUser = require('./routes/users');
 const routerCoffee = require('./routes/coffee');
 
 // define route handlers
+app.use('/public', express.static(path.join(__dirname, '../client/public')));
 app.use('/api/user', routerUser);
 app.use('/api/coffee', routerCoffee);
 

@@ -5,7 +5,7 @@ import '../stylesheets/shop.css'
 import FocusedShop from './FocusedShop';
 
 export default function Shop(props) {
-    const { drinks, food, name, outlets, parking, sound, space, wifi, _id } = props;
+    const { drinks, food, name, outlets, parking, sound, space, wifi, _id, fetchShopMatches } = props;
     
     const [ isFocused, setIsFocused ] = useState(false);
     
@@ -18,6 +18,11 @@ export default function Shop(props) {
         <div>
           <div onClick={() => handleClick()} className='shop'>
               <h2>{name}</h2>
+              <div className="shop-averages-container">
+                {Object.keys(props).map(prop => {
+                  if(!['name', 'fetchShopMatches', '_id'].includes(prop)) return (<div>{prop}: {props[prop]}</div>);
+                })}
+              </div>
           </div>
           {isFocused && <FocusedShop
                              drinks={drinks}
@@ -29,8 +34,9 @@ export default function Shop(props) {
                              space={space}
                              wifi={wifi}
                              _id={_id}
-                             key={_id}
+                             key={`focusedShop${_id}`}
                              setIsFocused={setIsFocused}
+                             fetchShopMatches={fetchShopMatches}
           />}
         </div>
     )

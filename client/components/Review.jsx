@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import '../stylesheets/review.css';
 
 export default function Review(props) {
   const { drinks, food, outlets, parking, sound, space, wifi, username } = props;
