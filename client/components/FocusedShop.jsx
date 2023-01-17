@@ -3,7 +3,7 @@ import Review from './Review';
 
 export default function FocusedShop(props) {
     const [reviews, setReviews] = useState([]);
-    const { drinks, food, name, outlets, parking, sound, space, wifi, _id, setIsFocused } = props;
+    const { drinks, food, name, outlets, parking, sound, space, wifi, _id, setIsFocused, fetchShopMatches } = props;
 
     const [ addReview, setAddReview ] = useState({
         drinks: 0,
@@ -12,12 +12,13 @@ export default function FocusedShop(props) {
         parking: 0,
         sound: 0,
         space:0,
-        wifi:0
+        wifi:0,
+        shopId: _id
     });
 
     
     useEffect(() => {
-      const query = `?id=${_id}`;
+      const query = `?shopId=${_id}`;
       fetch(`http://localhost:8080/api/coffee/reviews/${query}`)
         .then(res => res.json())
         .then(res => {
@@ -30,9 +31,17 @@ export default function FocusedShop(props) {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify()
+            body: JSON.stringify(addReview)
           };
-        fetch('http://localhost:8080/api/coffee/addReview', requestOptions)
+        const query = `?shopId=${_id}`;
+        fetch(`http://localhost:8080/api/coffee/addreview/${query}`, requestOptions)
+          .then(res => res.json())
+          .then(res => {
+            console.log('response: ', res);
+            setReviews(res);
+            fetchShopMatches();
+        })
+          .catch(e => console.log(e));
     }
     
   return (
