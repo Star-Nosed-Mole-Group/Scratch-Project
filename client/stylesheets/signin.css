@@ -1,3 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Cabin&family=Libre+Baskerville&display=swap");
+
+
 body {
     background-image: url('../public/coffeebackground.jpg');
     background-position: center; /* Center the image */
@@ -6,6 +9,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Libre Baskerville', serif;
 }
 
 .login {
@@ -22,10 +26,42 @@ body {
     /* width: 400px; */
 }
 
+.signin-btn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.signin-btn {
+    box-shadow: 0px 1px 5px 0px #1c1b18;
+	background:linear-gradient(to bottom, #614c12 5%, #a07651 100%);
+	background-color:#6b593f;
+	border-radius:7px;
+	border:1px solid #332e29;
+	display:inline-block;
+	/* cursor#e2e0d4r; */
+	color:#ede3d3;
+	font-family:Arial;
+	font-size:14px;
+	/* font-weight:bold; */
+	padding:4px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #575542;
+}
+
 .signin-btn:hover {
-    cursor: pointer;
+    cursor: pointer; 
+    background:linear-gradient(to bottom, #0d0a02 5%, #614c12 100%);
+	background-color:#0d0a02;
 }
 
 .haveanaccount:hover {
     cursor: pointer;
+}
+
+button {
+    font-family: 'Cabin', sans-serif;
+    font-family: 'Libre Baskerville', serif;
 }

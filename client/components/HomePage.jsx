@@ -7,9 +7,10 @@ export default function HomePage(props) {
   const { quality_meals, quality_drinks, space, sound, outlets, parking, wifi, shopname } = searchOptions;
 
   const location = useLocation();
-  const { from } = location.state;
-  const username = from;
-
+  //const { from } = location.state;
+  const username = location.state.username
+  console.log('current user from HomePage is ' + location.state.username);
+  console.log('username from HomePage is ' + username);
 
   const handleChange = event => {
         const target = event.target;

@@ -6,10 +6,14 @@ export default function Review(props) {
             
   return (
     <div className='review-container'>
-        {Object.keys(props).map(prop => {
-            return (<div>{prop}: {props[prop]}</div>);
-        })}
+        <div className="review">
+          {Object.keys(props).map(prop => {
+            if(!['currentUser'].includes(prop)) return (<div className='review-grid-item'>{prop}: {props[prop]}</div>);
+          })}
+        </div>
+      {username === props.currentUser && <div><button className='delete-review-button'>Delete Review</button><button className='update-review-button'>Update Review</button></div>}
     </div>
     
   )
 }
+

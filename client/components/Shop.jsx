@@ -5,8 +5,9 @@ import '../stylesheets/shop.css'
 import FocusedShop from './FocusedShop';
 
 export default function Shop(props) {
-    const { drinks, food, name, outlets, parking, sound, space, wifi, _id, fetchShopMatches } = props;
-    
+    const { drinks, food, name, outlets, parking, sound, space, wifi, _id, fetchShopMatches, currentUser } = props;
+    const replacedName = name.replaceAll('"', '\'');
+    console.log('CurrentUser in Shop: ' + currentUser)
     const [ isFocused, setIsFocused ] = useState(false);
     
     const handleClick = () => {
@@ -17,10 +18,10 @@ export default function Shop(props) {
     return (
         <div>
           <div onClick={() => handleClick()} className='shop'>
-              <h2>{name}</h2>
+              <h2>{replacedName}</h2>
               <div className="shop-averages-container">
                 {Object.keys(props).map(prop => {
-                  if(!['name', 'fetchShopMatches', '_id'].includes(prop)) return (<div>{prop}: {props[prop]}</div>);
+                  if(!['name', 'fetchShopMatches', '_id', 'currentUser'].includes(prop)) return (<div>{prop}: {props[prop]}</div>);
                 })}
               </div>
           </div>
@@ -37,6 +38,7 @@ export default function Shop(props) {
                              key={`focusedShop${_id}`}
                              setIsFocused={setIsFocused}
                              fetchShopMatches={fetchShopMatches}
+                             currentUser={currentUser}
           />}
         </div>
     )

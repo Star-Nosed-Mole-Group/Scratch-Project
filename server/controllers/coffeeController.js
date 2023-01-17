@@ -94,11 +94,12 @@ coffeeController.readReviews = (req, res, next) => {
   //will this be rendered after they click on shop or with a button
   //a text field? 
 coffeeController.addReview = (req, res, next) => {
-  const { food, drinks, space, sound, outlets, parking, wifi } = req.body;
+  const { food, drinks, space, sound, outlets, parking, wifi, username } = req.body;
   const { shopId } = req.query;
+  console.log(username);
   console.log('addReview invoked');
   Reviews.create({ shopId, food, drinks, space, sound,
-    outlets, parking, wifi, username: 'Jaden'})
+    outlets, parking, wifi, username})
     .then(response => {
       console.log('review created!')
       console.log(response);
@@ -116,10 +117,49 @@ coffeeController.addReview = (req, res, next) => {
 
 //how will this render? user searches by name, readreviews, searches through for their own review (need to add username to review model)
     //how do we save the username with the request object? parameterized queries? cookie? 
-coffeeController.delReview = (req, res, next) => {
-  const { id } = req.query; 
+// coffeeController.delReview = (req, res, next) => {
+//   const { shopId } = req.query; 
+//   Reviews.findOneAndDelete({shopId: shopId})
+//   .then(response => {
+//     console.log('review deleted!')
+//     return next()
+//   })
+//   .catch(err => {
+//   return next({
+//     log: 'addReview error!',
+//     message: {err: 'cannot add review!'}
+//   })
+// })  
+// };
+
+// coffeeController.delUpdateAve = async (req, res, next) => {
+//   console.log('delUpdateAve invoked');
+//   const text = `SELECT * from spots WHERE _id = $1`;
+//   const value = [req.query.shopId];
+
+//   const newAveValues = {}; // { name: starbucks, food_avg: 2, drinks_avg: 3}
+//   const queryResponse =  await db.query(text, value); // [{ name: starbucks, food_avg: 2, drinks_avg: 3, reviewCount: 120}]
+//   const queryRows = queryResponse.rows[0];
+//   console.log('queryReponse:', queryRows);
+//   for(const [key, value] of Object.entries(queryRows)) {
+//     if(!['reviewcount', '_id', 'name'].includes(key)) {
+//       newAveValues[key] = (value * queryRows.reviewcount - req.body[key]) / (queryRows.reviewcount - 1);
+//     }
+//   }
   
-};
+//     console.log('newAveValues: ', newAveValues);
+//     const query = 'UPDATE spots SET food=$2, drinks=$3, space=$4, sound=$5, outlets=$6, parking=$7, wifi=$8, reviewcount=$9 WHERE _id=$1';
+//     const values = [req.query.shopId, newAveValues.food, newAveValues.drinks, newAveValues.space, newAveValues.sound, newAveValues.outlets, newAveValues.parking, newAveValues.wifi, queryRows.reviewcount - 1];
+//     console.log('values array: ', values);
+//     db.query(query, values)
+//       .then(res => next())
+//       .catch(err => {
+//         return next({
+//           log: 'updateAve error during update request',
+//           message: {err: 'Error'}
+//         });
+//       }) 
+// }
 
 //this controller is to update an individual's review
 //have to save res.locals. to updateAve controller
@@ -142,10 +182,6 @@ coffeeController.updateAve = async (req, res, next) => {
   console.log('queryReponse:', queryRows);
   for(const [key, value] of Object.entries(queryRows)) {
     if(!['reviewcount', '_id', 'name'].includes(key)) {
-      console.log('value: ', value);
-      console.log('userRating: ', req.body[key]);
-      console.log('updated review count: ', queryRows.reviewcount + 1);
-      console.log('updated stars: ', (value * queryRows.reviewcount + req.body[key]) / (queryRows))
       newAveValues[key] = (value * queryRows.reviewcount + req.body[key]) / (queryRows.reviewcount + 1);
     }
   }

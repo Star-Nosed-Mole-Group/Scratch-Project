@@ -34,7 +34,7 @@ const SignIn = (props) => {
                 //throw Error('Your username or password is incorrect')
                 navigate('/signin')
             } else {
-               navigate('/home')
+               navigate('/home', {state:{username: username}});
             }
         })
         .catch(err => console.log(err));
@@ -52,13 +52,13 @@ const SignIn = (props) => {
                     <label htmlFor="password">Password</label><br></br>
                     <input placeholder='Enter your password' type="password" id="password" name="password" onChange={(e) => handleChange(e)}></input>
                 </div><br></br>
-                <div className="signin-btn">
-              <button state={{from: username}} onClick={handleSubmit}>Sign in</button>
-            </div>
-            <div>
-             <Link to="/signup">
-                <button>Don't have an account?</button>
-             </Link>
+            <div className="signin-btn-container">
+                <button className='signin-btn'onClick={handleSubmit}>Sign in</button>
+                <div>
+                 <Link to="/signup">
+                    <button>Don't have an account?</button>
+                 </Link>
+                </div>
             </div>
         </div>
     )

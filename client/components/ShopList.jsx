@@ -8,8 +8,9 @@ const ShopList = props => {
   const[matches, setMatches] = useState([]);
   const location = useLocation();
   const { from } = location.state;
-  const { quality_meals, quality_drinks, space, sound, outlets, parking, wifi, shopname } = from;  
+  const { quality_meals, quality_drinks, space, sound, outlets, parking, wifi, shopname, username } = from;  
   console.log('from: ', from);
+  console.log('current user from shoplist: ' + location.state.from);
   
   const fetchShopMatches = () => {
     const query = `?quality_meals=${quality_meals}&quality_drinks=${quality_drinks}&space=${space}&sound=${sound}&outlets=${outlets}&parking=${parking}&wifi=${wifi}`;
@@ -43,6 +44,7 @@ const ShopList = props => {
                  _id={_id}
                  key={`shop${_id}`}
                  fetchShopMatches={fetchShopMatches}
+                currentUser = {username}
           />
         })}
       </div>

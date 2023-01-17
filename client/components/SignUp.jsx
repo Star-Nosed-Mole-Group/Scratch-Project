@@ -20,7 +20,7 @@ const Signup = props => {
     fetch('http://localhost:3000/api/user/signup', requestOptions)
       .then(response => {
         response.json();
-        alert('resonse status is: ' + response.status)
+        // alert('resonse status is: ' + response.status)
         alert('You have successfully signed up!');
       })
       .catch(err => console.log(err));      
