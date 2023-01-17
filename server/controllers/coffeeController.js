@@ -117,7 +117,8 @@ coffeeController.addReview = (req, res, next) => {
 
 //how will this render? user searches by name, readreviews, searches through for their own review (need to add username to review model)
     //how do we save the username with the request object? parameterized queries? cookie? 
-// coffeeController.delReview = (req, res, next) => {
+
+coffeeController.delReview = (req, res, next) => {
 //   const { shopId } = req.query; 
 //   Reviews.findOneAndDelete({shopId: shopId})
 //   .then(response => {
@@ -130,7 +131,7 @@ coffeeController.addReview = (req, res, next) => {
 //     message: {err: 'cannot add review!'}
 //   })
 // })  
-// };
+};
 
 // coffeeController.delUpdateAve = async (req, res, next) => {
 //   console.log('delUpdateAve invoked');
@@ -160,7 +161,6 @@ coffeeController.addReview = (req, res, next) => {
 //         });
 //       }) 
 // }
-
 //this controller is to update an individual's review
 //have to save res.locals. to updateAve controller
 
@@ -168,7 +168,7 @@ coffeeController.updateReview = (req, res, next) => {
   
 };
 
-//this controller has to include recalculating averages, updating values in the spots table
+//thisError occurred while proxying request localhost:8080 controller has to include recalculating averages, updating values in the spots table
 coffeeController.updateAve = async (req, res, next) => {
   console.log('updateAve invoked');
   // const { shopId, food, drinks, space, sound, outlets, parking, wifi } = req.body;  
