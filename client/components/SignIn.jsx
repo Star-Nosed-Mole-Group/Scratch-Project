@@ -11,57 +11,58 @@ const SignIn = (props) => {
   const navigate = useNavigate();
   
   const handleChange = (event) => {
-     if (event.target.name == 'username') {
-        setUsername(event.target.value);
-     } else {
-        setPassword(event.target.value)
-     }
+    if (event.target.name == 'username') {
+      setUsername(event.target.value);
+    } else {
+      setPassword(event.target.value);
     }
-   // const navigate = useNavigate();
+  }
     
-    const handleSubmit = (event) => {
-        //alert('Username: ' + username + ' Password: ' + password);
-        const requestOptions = {
-            // mode: 'no-cors',
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({username, password})
-            };
-        fetch('http://localhost:3000/api/user/login', requestOptions)
-          .then(data => {
-            if (!data.ok) {
-                alert('Your username or password is incorrect');
-                //throw Error('Your username or password is incorrect')
-                navigate('/signin')
-            } else {
-               navigate('/home', {state:{username: username}});
-            }
-        })
-        .catch(err => console.log(err));
-        // alert('Make get request');
-    } 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    
+    const requestOptions = {
+      // mode: 'no-cors',
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({username, password})
+    };
 
-    return (
-        <div className="login">
-            <h1>Welcome to Coffee Shop</h1>
-                <div className="username">
-                    <label htmlFor="username">Username</label><br></br>
-                    <input placeholder='Enter your username' type="text" id="username" name="username" onChange={(e) => handleChange(e)}></input>
-                </div>
-                <div className="password">
-                    <label htmlFor="password">Password</label><br></br>
-                    <input placeholder='Enter your password' type="password" id="password" name="password" onChange={(e) => handleChange(e)}></input>
-                </div><br></br>
-            <div className="signin-btn-container">
-                <button className='signin-btn'onClick={handleSubmit}>Sign in</button>
-                <div>
-                 <Link to="/signup">
-                    <button>Don't have an account?</button>
-                 </Link>
-                </div>
-            </div>
-        </div>
-    )
+    fetch('/api/user/login', requestOptions)
+      .then(data => {
+        if (!data.ok) {
+          alert('Your username or password is incorrect');
+          //throw Error('Your username or password is incorrect')
+          navigate(0);
+        } else {
+          navigate('/home', {state:{username: username}});
+        }
+    })
+    .catch(err => console.log(err));
+    // alert('Make get request');
+  } 
+
+  return (
+      <div className="login">
+          <h1>Java-N-Script</h1>
+              <div className="username">
+                  <label htmlFor="username">Username</label><br></br>
+                  <input placeholder='Enter your username' type="text" id="username" name="username" onChange={(e) => handleChange(e)}></input>
+              </div>
+              <div className="password">
+                  <label htmlFor="password">Password</label><br></br>
+                  <input placeholder='Enter your password' type="password" id="password" name="password" onChange={(e) => handleChange(e)}></input>
+              </div><br></br>
+          <div className="signin-btn-container">
+              <button className='signin-btn'onClick={handleSubmit}>Sign in</button>
+              <div>
+                <Link to="/signup">
+                  <button>Don't have an account?</button>
+                </Link>
+              </div>
+          </div>
+      </div>
+  )
 }
 
 

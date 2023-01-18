@@ -10,7 +10,11 @@ const reviewsSchema = new Schema({
     outlets: {type: Number, default: 0},
     parking: {type: Number, default: 0},
     wifi: {type: Number, default: 0},
-    username: {type: String, required: true}
+    username: {type: String, required: true},
+    comments: [{
+      body: {type: String, require: true},
+      time: {type: Date}
+    }]
 })
 
 const Reviews = mongoose.model('reviews', reviewsSchema);

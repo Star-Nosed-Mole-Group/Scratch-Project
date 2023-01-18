@@ -24,7 +24,7 @@ coffeeController.searchShopsByCriteria = (req, res, next) => {
   console.log('searchShopsByCriteria');
     const { quality_meals, quality_drinks, space, sound, outlets, parking, wifi } = req.query;
     const value1 = [quality_meals, quality_drinks, space, sound, outlets, parking, wifi];
-    const selectShopsByCriteria = `SELECT * FROM spots 
+    const selectShopsByCriteria = `SELECT * FROM shops 
                   WHERE food >= $1 
                   AND drinks >= $2
                   AND space >= $3
@@ -32,9 +32,11 @@ coffeeController.searchShopsByCriteria = (req, res, next) => {
                   AND outlets >= $5
                   AND parking >= $6
                   AND wifi >= $7`;
-
+// const test = 'SELECT * FROM spots'
     db.query(selectShopsByCriteria, value1)
       .then(response => {
+        // console.log('response ',response)
+        console.log('response rows', response.rows)
         res.locals.readShops = response.rows; 
         console.log(response.rows);
         return next();
@@ -52,7 +54,7 @@ coffeeController.searchShopsByCriteria = (req, res, next) => {
 coffeeController.searchShopsByName = (req, res, next) => {
   console.log('searchShopsByNames invoked');
   const { name } = req.query;
-  const query = `SELECT name from spots WHERE shop_name=${name}`;
+  const query = `SELECT name from shops WHERE shop_name=${name}`;
   
   db.query(query)
     .then(response => {
@@ -118,19 +120,28 @@ coffeeController.addReview = (req, res, next) => {
 //how will this render? user searches by name, readreviews, searches through for their own review (need to add username to review model)
     //how do we save the username with the request object? parameterized queries? cookie? 
 
+
+    // {
+    //   _id: jhfi83fo83qfg
+    //   shopId: 1
+    // }
+    //instead of param queries, send JSON data with review ID and shop ID
 coffeeController.delReview = (req, res, next) => {
-//   const { shopId } = req.query; 
-//   Reviews.findOneAndDelete({shopId: shopId})
-//   .then(response => {
-//     console.log('review deleted!')
-//     return next()
-//   })
-//   .catch(err => {
-//   return next({
-//     log: 'addReview error!',
-//     message: {err: 'cannot add review!'}
-//   })
-// })  
+  const { _id } = req.body;  
+  const { shopId } = req.query;
+  console.log("shopId: ", _id)
+  //delete review
+  Reviews.findOneAndDelete({_id: _id})
+  .then(response => {
+    console.log('review deleted!')
+    return next()
+  })
+  .catch(err => {
+  return next({
+    log: 'addReview error!',
+    message: {err: 'cannot add review!'}
+  })
+})  
 };
 
 // coffeeController.delUpdateAve = async (req, res, next) => {
@@ -173,11 +184,12 @@ coffeeController.updateAve = async (req, res, next) => {
   console.log('updateAve invoked');
   // const { shopId, food, drinks, space, sound, outlets, parking, wifi } = req.body;  
   
-  const text = `SELECT * from spots WHERE _id = $1`;
+  const text = `SELECT * from shops WHERE _id = $1`;
   const value = [req.query.shopId];
 
   const newAveValues = {}; // { name: starbucks, food_avg: 2, drinks_avg: 3}
   const queryResponse =  await db.query(text, value); // [{ name: starbucks, food_avg: 2, drinks_avg: 3, reviewCount: 120}]
+  console.log('req.query ', req.query)
   const queryRows = queryResponse.rows[0];
   console.log('queryReponse:', queryRows);
   for(const [key, value] of Object.entries(queryRows)) {
@@ -187,7 +199,7 @@ coffeeController.updateAve = async (req, res, next) => {
   }
   
     console.log('newAveValues: ', newAveValues);
-    const query = 'UPDATE spots SET food=$2, drinks=$3, space=$4, sound=$5, outlets=$6, parking=$7, wifi=$8, reviewcount=$9 WHERE _id=$1';
+    const query = 'UPDATE shops SET food=$2, drinks=$3, space=$4, sound=$5, outlets=$6, parking=$7, wifi=$8, reviewcount=$9 WHERE _id=$1';
     const values = [req.query.shopId, newAveValues.food, newAveValues.drinks, newAveValues.space, newAveValues.sound, newAveValues.outlets, newAveValues.parking, newAveValues.wifi, queryRows.reviewcount + 1];
     console.log('values array: ', values);
     db.query(query, values)

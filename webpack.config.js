@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { PassThrough } = require('stream');
 
 module.exports = {
   entry: './client/index.js',
@@ -13,15 +14,24 @@ module.exports = {
   devServer: {
     static: {
         // publicPath: '/dist',
-        // directory: path.resolve(__dirname, 'dist')
-        directory: path.join(__dirname, './client/index.html')
+        directory: path.resolve(__dirname, 'dist')
+        // directory: path.join(__dirname, './client/index.html')
     },
+    compress: true,
     host: 'localhost',
     port: 8080,
-    headers: { 'Access-Control-Allow-Origin': '*' },
+    // headers: { 'Access-Control-Allow-Origin': '*' },
+
     proxy: {
-        '/': 'http://localhost:3000'
+        '/api': {
+          target: 'http://localhost:3000',//fetching to 3000 from 8080
+          changeOrigin: true,           //cors
+          pathRewrite: { '^/api': '' } //removes /api
+        },
     },
+    hot: true,
+    open: true,
+    historyApiFallback: true,   //refresh page with react router
 },
     
 mode: process.env.NODE_ENV,

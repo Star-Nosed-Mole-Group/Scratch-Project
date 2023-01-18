@@ -7,6 +7,7 @@ export default function FocusedShop(props) {
     const [reviews, setReviews] = useState([]);
     const { drinks, food, name, outlets, parking, sound, space, wifi, _id, setIsFocused, fetchShopMatches, currentUser } = props;
     const replacedName = name.replaceAll('"', '\'');
+    console.log("id ", _id)
     const [ addReview, setAddReview ] = useState({
         drinks: 0,
         food: 0,
@@ -22,7 +23,7 @@ export default function FocusedShop(props) {
     
     useEffect(() => {
       const query = `?shopId=${_id}`;
-      fetch(`http://localhost:8080/api/coffee/reviews/${query}`)
+      fetch(`/api/coffee/reviews/${query}`)
         .then(res => res.json())
         .then(res => {
             setReviews(res);
@@ -38,7 +39,7 @@ export default function FocusedShop(props) {
             body: JSON.stringify(addReview)
           };
         const query = `?shopId=${_id}`;
-        fetch(`http://localhost:8080/api/coffee/addreview/${query}`, requestOptions)
+        fetch(`/api/coffee/addreview/${query}`, requestOptions)
           .then(res => res.json())
           .then(res => {
             console.log('response: ', res);

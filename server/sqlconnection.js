@@ -1,10 +1,10 @@
 const { Pool } = require('pg'); //had to npm install pg
 
-const PG_URI = 'postgres://xryqbhgj:bssNj-4w1ttykBuzhXd0ZMjHeuR7EKCs@mahmud.db.elephantsql.com/xryqbhgj';
+// const PG_URI = 'postgres://xryqbhgj:bssNj-4w1ttykBuzhXd0ZMjHeuR7EKCs@mahmud.db.elephantsql.com/xryqbhgj';
 
 //connecting to pool to keep this one open constantly (opening/closing takes resources)
 const pool = new Pool({
-    connectionString: PG_URI
+    connectionString: process.env.PG_URI
 });
 
 
@@ -16,3 +16,25 @@ module.exports = {
     return pool.query(text, params, callback);
   }
 }
+
+
+/*
+    CREATE TABLE users (
+      user_id serial PRIMARY KEY,
+      username VARCHAR ( 50 ) NOT NULL,
+      password VARCHAR ( 200 ) NOT NULL
+    )
+
+    CREATE TABLE shops (
+      _id serial PRIMARY KEY,
+      food INT DEFAULT 0,
+      drinks INT DEFAULT 0,
+      space INT DEFAULT 0,
+      sound INT DEFAULT 0,
+      outlets INT DEFAULT 0,
+      parking INT DEFAULT 0,
+      wifi INT DEFAULT 0,
+      name VARCHAR ( 50 ) NOT NULL,
+      reviewcount INT DEFAULT 0
+    )
+*/
