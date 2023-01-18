@@ -9,15 +9,15 @@ const mongoose = require('mongoose');
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
-const PORT = 3000;
 
-const MONGO_URI = 'mongodb+srv://studyspot:studiousmoles@cluster0.6h0gbc8.mongodb.net/?retryWrites=true&w=majority';
-console.log(process.env.MONGO_URI);
+
+// const MONGO_URI = 'mongodb+srv://studyspot:studiousmoles@cluster0.6h0gbc8.mongodb.net/?retryWrites=true&w=majority';
+console.log('URI; ', process.env.MONGO_URI);
 mongoose 
-  .connect(MONGO_URI, {
+  .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    dbName: 'coffeeShopReviews'
+    dbName: 'coffeeIteration'
   })
   .then(() => console.log('Connected to MongoDB.'))
   .catch(err => console.log(err));
@@ -56,5 +56,5 @@ app.use((err, req, res, next) => {
     return res.status(errObj.status).json(errObj.message);
 });
 
-app.listen(PORT, () => { console.log(`Server listening on PORT: ${PORT}...`)});
+app.listen(process.env.PORT, () => { console.log(`Server listening on PORT: ${process.env.PORT}...`)});
 module.exports = app;

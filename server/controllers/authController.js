@@ -23,7 +23,7 @@ authController.verifyUser = (req, res, next) => {
   const query = `SELECT password from users WHERE username='${username}'`;
   db.query(query)
     .then(response => {
-      // console.log(response);
+      console.log(response.rows);
       if(response.rows[0].password !== password) return next({
         log: 'Error at authController.verifyUser - incorrect password',
         message: {err: 'Username and password do not match'}

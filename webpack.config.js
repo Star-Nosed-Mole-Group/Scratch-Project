@@ -18,20 +18,20 @@ module.exports = {
         // directory: path.join(__dirname, './client/index.html')
     },
     compress: true,
-    // host: 'localhost',
+    host: 'localhost',
     port: 8080,
     // headers: { 'Access-Control-Allow-Origin': '*' },
 
     proxy: {
         '/api': {
-          target: 'http://localhost:3000',
-          changeOrigin: true,
-          pathRewrite: { '^/api': '' }
+          target: 'http://localhost:3000',//fetching to 3000 from 8080
+          changeOrigin: true,           //cors
+          pathRewrite: { '^/api': '' } //removes /api
         },
     },
     hot: true,
     open: true,
-    historyApiFallback: true,
+    historyApiFallback: true,   //refresh page with react router
 },
     
 mode: process.env.NODE_ENV,
